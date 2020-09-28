@@ -22,23 +22,15 @@ def handle_client(conn,addr):
       msg = conn.recv(msg_len).decode(FORMAT)
       if msg == DISCONECT_MSG:
         connected = False
-      print(msg)
-
+        msg= 
   print(f'[CLIENT - {addr}] {msg}')
     
 
-def start():
+def start_s():
   server.listen()
   print(f'[SERVER] Listening on: {SERVER}')
-  c=0
   while True:
     conn,addr = server.accept()
-    thread = threading.Thread(target=handle_client(conn,addr))#,args=(conn,addr))
-    print(f'[SERVER] ACTIVE Connections: {threading.activeCount()-1}')
-    # handle_client(conn,addr)
-    # c+=1
-    # print(c)
-  
-
+    threading.Thread(target=handle_client(conn,addr),args=(conn,addr)).start()
 print('[SERVER] Starting....')
-start()
+start_s()
