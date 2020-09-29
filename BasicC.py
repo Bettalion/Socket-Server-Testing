@@ -10,22 +10,22 @@ DISCONECT_MSG = '!OUT'
 SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER,PORT)
 
-client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-client.connect(ADDR)
+CLIENT = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+CLIENT.connect(ADDR)
 
 def send(msg):
     message = msg.encode(FORMAT)
     msg_len = len(message)
     send_len = str(msg_len).encode(FORMAT)
     send_len += b' '*(HEADER - len(send_len))
-    client.send(send_len)
-    client.send(message)
+    CLIENT.send(send_len)
+    CLIENT.send(message)
 
-def recieve(conn):
-    msg_len = conn.recv(HEADER).decode(FORMAT)
+def recieve():
+    msg_len = CLIENT.recv(HEADER).decode(FORMAT)
     if msg_len:
       msg_len= int(msg_len)
-      msg = conn.recv(msg_len).decode(FORMAT)
+      msg = CLIENT.recv(msg_len).decode(FORMAT)
       print(msg)
 
 
@@ -34,10 +34,14 @@ while connect:
   msg = input()
   if msg:
       send(msg)
+  
   else:
     send(DISCONECT_MSG)
     print('You have disconnected!')
     quit()
+  
+  # recieve(CLIENT)
+  threading.Thread(target=recieve).start()
 
 
 # Protocol:

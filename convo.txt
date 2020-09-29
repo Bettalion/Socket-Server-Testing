@@ -62,3 +62,8 @@
 [ghu]   gu
 [njuhu]   hi
 [njuhu]   hiii
+[hi]   [A
+[hi]   hi
+[hi]   hi
+[hi]   hhhuiuhhiu
+[hi]   hu

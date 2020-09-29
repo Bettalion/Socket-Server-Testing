@@ -58,7 +58,7 @@ while connect:
   # recieve(client)
   print(((threading.activeCount()-1)))
   if ((threading.activeCount()-1)) < 1:
-    thread = threading.Thread(target=recieve,args=client)
+    threading.Thread(target=recieve,args=client).start()
     print(13456789009876)
   msg = input()
   if msg:

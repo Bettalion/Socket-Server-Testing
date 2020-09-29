@@ -39,6 +39,10 @@ def handle_client(conn,addr):
           connected = False
         print(f'[CLIENT - {addr}] {msg}')
 
+        for c in ACTIVE_CONN:
+            send(msg,c)
+
+
   ACTIVE_CONN.remove(conn)
   conn.close()
     
