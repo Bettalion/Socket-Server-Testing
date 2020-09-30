@@ -9,6 +9,7 @@ HEADER = 16
 FORMAT = 'utf-8'
 DISCONECT_MSG = '!OUT'
 ACTIVE_CONN= []
+MESSAGE=None
 
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 server.bind(ADDR)
@@ -27,6 +28,13 @@ def recieve(conn):
       msg_len= int(msg_len)
       msg = conn.recv(msg_len).decode(FORMAT)
       print(msg)
+def dist():
+   pre=None
+   while True:
+     if MESSAGE != pre:
+       for c in ACTIVE_CONN:
+         send('hi',c)
+
 def handle_client(conn,addr):
   print(f'[SERVER] NEW CONNECTION: {addr} has connected')
   connected = True
@@ -38,10 +46,6 @@ def handle_client(conn,addr):
         if msg == DISCONECT_MSG:
           connected = False
         print(f'[CLIENT - {addr}] {msg}')
-
-        for c in ACTIVE_CONN:
-            send(msg,c)
-
 
   ACTIVE_CONN.remove(conn)
   conn.close()
@@ -57,7 +61,6 @@ def start_s():
     thread = threading.Thread(target=handle_client,args=(conn,addr))
     thread.start()
     print(f'active connections: {threading.activeCount()-1}')
-
 
 print('[SERVER] Starting....')
 start_s()

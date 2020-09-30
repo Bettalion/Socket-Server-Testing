@@ -2,13 +2,15 @@ import socket
 import threading
 import time
 
-PORT = 5050
+PORT = 5051
 SERVER = socket.gethostbyname(socket.gethostname())
 ADDR = (SERVER,PORT)
 HEADER = 16
 FORMAT = 'utf-8'
 DISCONECT_MSG = '!OUT'
 ACTIVE_CONN= []
+NEWMSG=[]
+OLDMSG=[]
 
 server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 server.bind(ADDR)
@@ -50,14 +52,12 @@ def handle_client(conn,addr):
           file.write(f'{SaveInfo[0]} {SaveInfo[1]}\n')
         except:
           pass
-      for client in ACTIVE_CONN:
-        # if client != conn:
-        #   try:
-        #     send(f'{SaveInfo[0]} {SaveInfo[1]}\n',client)
-        #   except:
-            pass
-      send('hî,',conn)
-          # print(ACTIVE_CONN,'\n\n',client)
+        NEWMSG.append(msg)
+        for e in NEWMSG:
+          send(e,conn)
+          NEWMSG.remove(e)
+
+
   ACTIVE_CONN.remove(conn)
   conn.close()
   file.close()

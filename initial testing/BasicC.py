@@ -2,7 +2,6 @@ import socket
 import time
 import threading
 
-
 PORT = 5050
 HEADER = 16
 FORMAT = 'utf-8'
